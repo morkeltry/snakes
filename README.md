@@ -10,7 +10,7 @@ For our project there is not much of either, but here goes:
 first:
 
 ```
-git clone <repo address>
+git clone https://github.com/morkeltry/snakes.git
 cd snakes
 ```
 then: open snakes.html in your browser
