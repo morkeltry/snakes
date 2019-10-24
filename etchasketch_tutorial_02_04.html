@@ -72,32 +72,64 @@
 			height: 100
 		};
 
-		var snake = [{
+		var snake = {
 			x: oCanvas.width / 2,
 			y: oCanvas.height / 2
-		}];
+		};
 
 		var collisionDetection = (snake, collisionType) => {}
+
+		var updateSnake = (velocity, hasAppleBeenEaten)
+
+		var snakeDead = () => {}
+
+
+		function fnInitialise() {
+			//set the canvas to an appropraite mode
+			oCanvas = document.getElementById("cnCanvas");
+
+			let validKeys = ['W', 'A', 'S', 'D']
+
+			document.addEventListener('keydown', e => {
+				let input = e.key.toUpperCase()
+				if (validKeys.includes(input)) {
+					changeDir(input);
+				}
+			}); 
+
+			if (oCanvas.getContext) { //if we can get the canvas' context execute the following
+				oCanvasContext = oCanvas.getContext("2d"); //set the context to 2D, that way we are dealing with X and Y positions
+
+				snake = {
+					x: oCanvas.width / 2,
+					y: oCanvas.height / 2
+				};
+
+				//initialise both the variables used to hold the X and Y position of the stylus to 0
+				fnClear();
+				fnPaintStylus(); //this function call has been added here to cause the stylus to appear in the first instance
+			}	
+		}
 
 		function changeDir(direction) {
 			clearTimeout(window.movement); // stop current movement loop
 			switch (direction) {
-				case 'd':
+				case 'D':
 					velocity.y = 0;
 					velocity.x = 5;
 					move();
 					break;
-				case 'left':
+				case 'A':
 					velocity.y = 0;
 					velocity.x = -5;
 					move();
 					break;
-				case 'up':
+				case 'W':
 					velocity.y = -5;
 					velocity.x = 0;
 					move()
 					break;
-				case 'down':
+				case 'S':
 					velocity.y = 5;
 					velocity.x = 0;
 					move()
@@ -112,7 +144,7 @@
 
 		function move() {
 			window.movement = setTimeout(() => {
-				console.log("true")
+				console.log(snake,  velocity)
 				snake.x += velocity.x;
 				snake.y += velocity.y;
 				console.log(velocity.x, velocity.y)
@@ -122,51 +154,17 @@
 			}, 50)
 		}
 
-		var updateSnake = (velocity, hasAppleBeenEaten)
-
-		var snakeDead = () => {}
-
-
-		function fnInitialise() {
-			alert("Yeah, the page has loaded");
-			//set the canvas to an appropraite mode
-			oCanvas = document.getElementById("cnCanvas");
-			//this sets the oCanvas variable to point to the HTML canvas tag.
-			//the instruction "document.getElementByID" tells JavaScript to search the web document (this page) for the
-			//element with the specified ID; in this case it will find the canvas element.
-			//the ID provided must match the element ID used for the canvas otherwise the following instructions will
-			//not work (because the dependent information would be found, due to not being able to find the canvas).
-
-			document.addEventListener('keydown', e => {
-				console.log(e.key.toUpperCase())
-				changeDir(e.key.toUpperCase());
-			}); 
-
-			if (oCanvas.getContext) { //if we can get the canvas' context execute the following
-				oCanvasContext = oCanvas.getContext(
-				"2d"); //set the context to 2D, that way we are dealing with X and Y positions
-				alert(
-				"Canvas has been set to 2D"); //execute the JavaScript alert function, pass it a string (alphanumeric characters)
-
-				//initialise both the variables used to hold the X and Y position of the stylus to 0
-				fnClear();
-				fnPaintStylus(); //this function call has been added here to cause the stylus to appear in the first instance
-
-			}
-			
-		}
-
 		function centre() {
-			iXPos = oCanvas.width / 2;
-			iYPos = oCanvas.height / 2;
+			snake.x = oCanvas.width / 2;
+			snake.y = oCanvas.height / 2;
 		}
 
 		function fnClear() {
 			//this function resets the canvas - in essence it clear any existing colours
 			oCanvasContext.clearRect(0, 0, oCanvas.width, oCanvas
 			.height); //start and position 0,0 to the current width and height
-			iXPos = oCanvas.width / 2;
-			iYPos = oCanvas.height / 2;
+			snake.x = oCanvas.width / 2;
+			snake.y = oCanvas.height / 2;
 		}
 
 		function fnPaintStylus() {
@@ -176,7 +174,7 @@
 			console.log(useColor)
 
 			oCanvasContext.fillStyle = useColor;
-			oCanvasContext.fillRect(iXPos, iYPos, 5,
+			oCanvasContext.fillRect(snake.x, snake.y, 5,
 			5); //fillRect() method (function) draws a "filled" rectangle; default color black.
 
 
@@ -185,8 +183,8 @@
 		function fnShowState() {
 			//this function will be used to help us see whats happening live in our program
 			//it will use a built-in JavaScript function called "console.log" to show us the state of our program while we test it
-			console.log("Stylus X Position: " + iXPos + ", Y Position: " +
-			iYPos); //this will use the same window we use to debug errors but now it will also show us the values being held by both the iXPos and iYPos variables
+			console.log("Stylus X Position: " + snake.x + ", Y Position: " +
+			snake.y); //this will use the same window we use to debug errors but now it will also show us the values being held by both the snake.x and iYPos variables
 		}
 	</script>
 </head>
