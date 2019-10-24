@@ -14,4 +14,3 @@ git clone https://github.com/morkeltry/snakes.git
 cd snakes
 ```
 then: open snakes.html in your browser
-

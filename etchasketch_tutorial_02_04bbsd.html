@@ -68,9 +68,17 @@
 
 			var move = ( direction ) => {}
 
-			var updateSnake = ( velocity, hasAppleBeenEaten )
 
 			var snakeDead  = ( ) => {}
+            //tail function
+            
+			function updateSnake() {
+                let head = {x: iXPos, y: iYPos};
+                snake.unshift(head);
+                if (!hasAppleBeenEaten) {
+                    snake.pop();
+                } 
+            }
 
 
 
@@ -88,7 +96,6 @@
 				//set the canvas to an appropraite mode
 				oCanvas = document.getElementById("cnCanvas");
 				snake = [ {x:oCanvas.width/2, y:oCanvas.height/2} ];
-
 				//this sets the oCanvas variable to point to the HTML canvas tag.
 				//the instruction "document.getElementByID" tells JavaScript to search the web document (this page) for the
 				//element with the specified ID; in this case it will find the canvas element.
@@ -125,8 +132,8 @@
 				console.log (useColor)
 
 				oCanvasContext.fillStyle = useColor;
-				oCanvasContext.fillRect(iXPos, iYPos, 5, 5); //fillRect() method (function) draws a "filled" rectangle; default color black.
-
+				oCanvasContext.fillRect(iXPos, iYPos, m); //fillRect() method (function) draws a "filled" rectangle; default color black.
+                
 
 			}
 
