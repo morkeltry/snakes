@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-	<!--
+<!--
 	Well done for getting this far - this tutorial includes all the tasks from the previous session to help you check your work and give you a common starting point for the next set of tasks.
 
 	During this tutorial we will still be focusing on programming the canvas and stylus bits.  Although you will be given some code you are strongly encouraged to review and research its use online.
@@ -43,169 +43,195 @@
 		Try to complete the tasks before the next session
 	-->
 
-	<head>
-		<title>Etch A Sketch 04</title>
-		<script>
-			//declare a variable, a variable can be used to hold information - this variable will be used to hold the HTML canvas
-			var oCanvas;
-			//declare a variable, this variable will be used to hold the HTML canvas context (we will set it to 2D)
-			var oCTX;
-			var size = 5;
+<head>
+    <title>Etch A Sketch 04</title>
+    <script>
+        //declare a variable, a variable can be used to hold information - this variable will be used to hold the HTML canvas
+        var oCanvas;
+        //declare a variable, this variable will be used to hold the HTML canvas context (we will set it to 2D)
+        var oCTX;
+        var size = 5;
 
-			// snake head position
-			var iXPos, iYPos ;
-			// snake velocity
-			var velocity = { x:1, y:0 } ;
-			var appleCurrentPos = { x:10, y:10 } ;
+        // snake head position
+        var iXPos, iYPos;
+        // snake velocity
+        var velocity = {
+            x: 1,
+            y: 0
+        };
+        var appleCurrentPos = {
+            x: 10,
+            y: 10
+        };
 
-			var hasAppleBeenEaten = true;
+        var hasAppleBeenEaten = true;
 
-			var borders = { width: 100, height: 100 } ;
+        var borders = {
+            width: 100,
+            height: 100
+        };
 
-			var snake = [ {x:oCanvas.width/2, y:oCanvas.height/2} ];
-
-
-			var collisionDetection = (snake, collisionType ) => {}
-
-			var move = ( direction ) => {}
-
-			var updateSnake = ( velocity, hasAppleBeenEaten )
-
-			var snakeDead  = ( ) => {}
-
-
-
-
-
+        var snake = [{
+            x: oCanvas.width / 2,
+            y: oCanvas.height / 2
+        }];
 
 
+        var collisionDetection = (snake, collisionType) => {}
+
+        var move = (direction) => {}
+
+        var updateSnake = (velocity, hasAppleBeenEaten)
+
+        var snakeDead = () => {}
+
+        function generateApple(snake) {
+            var grid = 25;
+            var apple = {
+                x: 40,
+                y: 40
+            };
+            context.fillStyle = 'red';
+            context.fillRect(apple.x, apple.y, grid - 1, grid - 1)
+                // coord should be the corrdinates of snakes head given by other teams!!
+            if (snake.x === apple.x && snake.y === apple.y) {
+                hasAppleBeenEaten = true;
+                // canvas is 500x500 which is 25x25 grids 
+                apple.x = getRandomInt(0, 20) * grid;
+                apple.y = getRandomInt(0, 20) * grid;
+            }
 
 
 
 
 
-			function fnInitialise() {
-				alert("Yeah, the page has loaded");
-				//set the canvas to an appropraite mode
-				oCanvas = document.getElementById("cnCanvas");
-				//this sets the oCanvas variable to point to the HTML canvas tag.
-				//the instruction "document.getElementByID" tells JavaScript to search the web document (this page) for the
-				//element with the specified ID; in this case it will find the canvas element.
-				//the ID provided must match the element ID used for the canvas otherwise the following instructions will
-				//not work (because the dependent information would be found, due to not being able to find the canvas).
-
-				if (oCanvas.getContext) { //if we can get the canvas' context execute the following
-					oCanvasContext = oCanvas.getContext("2d"); //set the context to 2D, that way we are dealing with X and Y positions
-					alert("Canvas has been set to 2D"); //execute the JavaScript alert function, pass it a string (alphanumeric characters)
-
-					//initialise both the variables used to hold the X and Y position of the stylus to 0
-					fnClear();
-					fnPaintStylus(); //this function call has been added here to cause the stylus to appear in the first instance
-
-				}
-			}
-
-			function centre () {
-				iXPos=oCanvas.width / 2;
-				iYPos=oCanvas.height / 2;
-			}
-
-			function fnClear() {
-				//this function resets the canvas - in essence it clear any existing colours
-				oCanvasContext.clearRect(0, 0, oCanvas.width, oCanvas.height); //start and position 0,0 to the current width and height
-					iXPos=oCanvas.width / 2;
-					iYPos=oCanvas.height / 2;
-			}
-
-			function fnPaintStylus() {
-				//this function will be used to paint a stylus on the canvas - a bit like a mouse pointer
-				//the stylus will be painted and the X and Y position
-				var useColor= document.getElementById('fave-color').value
-				console.log (useColor)
-
-				oCanvasContext.fillStyle = useColor;
-				oCanvasContext.fillRect(iXPos, iYPos, 5, 5); //fillRect() method (function) draws a "filled" rectangle; default color black.
 
 
-			}
 
-			function fnShowState() {
-				//this function will be used to help us see whats happening live in our program
-				//it will use a built-in JavaScript function called "console.log" to show us the state of our program while we test it
-				console.log("Stylus X Position: " + iXPos + ", Y Position: " + iYPos); //this will use the same window we use to debug errors but now it will also show us the values being held by both the iXPos and iYPos variables
-			}
 
-			function fnUp() {
-				//this function will be executed when the user clicks the UP button
-					iYPos = Math.max( Math.min(iYPos-size, oCanvas.height), 0);
-					// iYPos = Math.max(iYPos-size, 0);
 
-				if (iYPos >= 5)
-					iYPos = iYPos - 5;
-				fnPaintStylus(); //paint the stylus at the new location
-				fnShowState();
-			}
 
-			function fnDown() {
+            function fnInitialise() {
+                alert("Yeah, the page has loaded");
+                //set the canvas to an appropraite mode
+                oCanvas = document.getElementById("cnCanvas");
+                //this sets the oCanvas variable to point to the HTML canvas tag.
+                //the instruction "document.getElementByID" tells JavaScript to search the web document (this page) for the
+                //element with the specified ID; in this case it will find the canvas element.
+                //the ID provided must match the element ID used for the canvas otherwise the following instructions will
+                //not work (because the dependent information would be found, due to not being able to find the canvas).
 
-				if (iYPos <= oCanvas.height-5){
-					iYPos = iYPos + 5; //increase the Y position for the stylus
-					}
-				fnPaintStylus(); //paint the stylus at the new location
-				fnShowState();
-			}
+                if (oCanvas.getContext) { //if we can get the canvas' context execute the following
+                    oCanvasContext = oCanvas.getContext("2d"); //set the context to 2D, that way we are dealing with X and Y positions
+                    alert("Canvas has been set to 2D"); //execute the JavaScript alert function, pass it a string (alphanumeric characters)
 
-			function fnLeft() {
-				if (iXPos >= 5){
-					iXPos = iXPos - 5; //reduce the X position for the stylus
-					}
-				fnPaintStylus(); //paint the stylus at the new location
-				fnShowState();
-			}
+                    //initialise both the variables used to hold the X and Y position of the stylus to 0
+                    fnClear();
+                    fnPaintStylus(); //this function call has been added here to cause the stylus to appear in the first instance
 
-			function fnRight() {
-				if (iXPos <= oCanvas.width-5){
+                }
+            }
 
-					iXPos = iXPos + 5; //this instruction does 2 things
-					}
-				fnPaintStylus(); //paint the stylus at the new location
-				//1. takes the value currently stored in the variable iXPos and adds 5 to it
-				//2. stores the new value back in the variable iXPos
-				//in general, this updates the value of the variable by the number specified (in this instance, 5)
-				fnShowState();
-			}
+            function centre() {
+                iXPos = oCanvas.width / 2;
+                iYPos = oCanvas.height / 2;
+            }
 
-		</script>
-	</head>
+            function fnClear() {
+                //this function resets the canvas - in essence it clear any existing colours
+                oCanvasContext.clearRect(0, 0, oCanvas.width, oCanvas.height); //start and position 0,0 to the current width and height
+                iXPos = oCanvas.width / 2;
+                iYPos = oCanvas.height / 2;
+            }
 
-	<body onload="fnInitialise();">
-		<!-- everything in the body section is rendered on the page; in essence this is the "user interface" -->
-		<div>
-			<!-- this container can be used to hold the canvas, techncally this is not needed but its good practice -->
-			<canvas id="cnCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #f0f0f0;">
+            function fnPaintStylus() {
+                //this function will be used to paint a stylus on the canvas - a bit like a mouse pointer
+                //the stylus will be painted and the X and Y position
+                var useColor = document.getElementById('fave-color').value
+                console.log(useColor)
+
+                oCanvasContext.fillStyle = useColor;
+                oCanvasContext.fillRect(iXPos, iYPos, 5, 5); //fillRect() method (function) draws a "filled" rectangle; default color black.
+
+
+            }
+
+            function fnShowState() {
+                //this function will be used to help us see whats happening live in our program
+                //it will use a built-in JavaScript function called "console.log" to show us the state of our program while we test it
+                console.log("Stylus X Position: " + iXPos + ", Y Position: " + iYPos); //this will use the same window we use to debug errors but now it will also show us the values being held by both the iXPos and iYPos variables
+            }
+
+            function fnUp() {
+                //this function will be executed when the user clicks the UP button
+                iYPos = Math.max(Math.min(iYPos - size, oCanvas.height), 0);
+                // iYPos = Math.max(iYPos-size, 0);
+
+                if (iYPos >= 5)
+                    iYPos = iYPos - 5;
+                fnPaintStylus(); //paint the stylus at the new location
+                fnShowState();
+            }
+
+            function fnDown() {
+
+                if (iYPos <= oCanvas.height - 5) {
+                    iYPos = iYPos + 5; //increase the Y position for the stylus
+                }
+                fnPaintStylus(); //paint the stylus at the new location
+                fnShowState();
+            }
+
+            function fnLeft() {
+                if (iXPos >= 5) {
+                    iXPos = iXPos - 5; //reduce the X position for the stylus
+                }
+                fnPaintStylus(); //paint the stylus at the new location
+                fnShowState();
+            }
+
+            function fnRight() {
+                if (iXPos <= oCanvas.width - 5) {
+
+                    iXPos = iXPos + 5; //this instruction does 2 things
+                }
+                fnPaintStylus(); //paint the stylus at the new location
+                //1. takes the value currently stored in the variable iXPos and adds 5 to it
+                //2. stores the new value back in the variable iXPos
+                //in general, this updates the value of the variable by the number specified (in this instance, 5)
+                fnShowState();
+            }
+    </script>
+</head>
+
+<body onload="fnInitialise();">
+    <!-- everything in the body section is rendered on the page; in essence this is the "user interface" -->
+    <div>
+        <!-- this container can be used to hold the canvas, techncally this is not needed but its good practice -->
+        <canvas id="cnCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #f0f0f0;">
 			</canvas>
-		</div>
+    </div>
 
-		<div>
-			<!-- this container can be used to group all the buttons -->
-			<button id="btUp" onclick="fnUp();" style="width: 80px;">
+    <div>
+        <!-- this container can be used to group all the buttons -->
+        <button id="btUp" onclick="fnUp();" style="width: 80px;">
 				UP
 			</button>
-			<button id="btDown" onclick="fnDown();" style="width: 80px;">
+        <button id="btDown" onclick="fnDown();" style="width: 80px;">
 				DOWN
 			</button>
-			<button id="btLeft" onclick="fnLeft();" style="width: 80px;">
+        <button id="btLeft" onclick="fnLeft();" style="width: 80px;">
 				LEFT
 			</button>
-			<button id="btRight" onclick="fnRight();" style="width: 80px;">
+        <button id="btRight" onclick="fnRight();" style="width: 80px;">
 				RIGHT
 			</button>
-			<button id="btClear" onclick="fnClear();" style="width: 80px;">
+        <button id="btClear" onclick="fnClear();" style="width: 80px;">
 				CLEAR
 			</button>
-			<input type="color" id="fave-color" value="#ff000088" />
-		</div>
+        <input type="color" id="fave-color" value="#ff000088" />
+    </div>
 
-	</body>
+</body>
 
 </html>
