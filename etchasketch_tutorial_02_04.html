@@ -71,7 +71,17 @@
 
 			var updateSnake = ( velocity, hasAppleBeenEaten )
 
-			var snakeDead  = ( ) => {}
+			var snakeDead  = ( ) => {
+				velocity = {x:0,y:0} //sets the velocity to zero, and stops snake from moving
+				var score = (snake.length - 1)*10; //Each apple/unit of length, gives a score of 10
+				snake.forEach(function (segment){ //takes the x and y segments for the snake
+					useColor = '#ffff00';
+					oCanvasContext.fillStyle = useColor; //sets the colour to be used to the yellow tone
+					oCanvasContext.fillRect((segment.x),(segment.y), 5, 5); //fillRect() method fills all the existing segments of co-ordinates X and Y to Yellow
+				})
+  				alert("Game Over. Your score was "+ score); //Gives the user a gameover screen, and tells them of their score
+  				fnClear(); //Clears the screen in preperation for a new game, and restarts position to be (0,0)
+			}
 
 
 
@@ -113,8 +123,8 @@
 			function fnClear() {
 				//this function resets the canvas - in essence it clear any existing colours
 				oCanvasContext.clearRect(0, 0, oCanvas.width, oCanvas.height); //start and position 0,0 to the current width and height
-					iXPos=oCanvas.width / 2;
-					iYPos=oCanvas.height / 2;
+				iXPos=oCanvas.width / 2;
+				iYPos=oCanvas.height / 2;
 			}
 
 			function fnPaintStylus() {
