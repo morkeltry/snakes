@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+	<!--
+	Well done for getting this far - this tutorial includes all the tasks from the previous session to help you check your work and give you a common starting point for the next set of tasks.
+
+	During this tutorial we will still be focusing on programming the canvas and stylus bits.  Although you will be given some code you are strongly encouraged to review and research its use online.
+	Search "html5 canvas" or take a look at:
+		https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
+
+	General Changes:
+		Created a paint stylus function called fnPaintStylus and added calls to ensure it is executed every time a button is pressed.
+		Added the new function to the fnInitialise instructions so that the stylus appears immediately.
+		Added a clear button.
+
+	We have introduced some new things:
+		1. fillStyle, the fillStyle property sets or returns the colour, gradient or pattern used to fill the drawing.
+			for more information on this please search online or take a look at:
+			https://www.w3schools.com/tags/canvas_fillstyle.asp
+
+		2. fillRect, this method (function) draws a "filled" rectangle, the default colour of the fill is black (unless changed var fillStyle).
+			for more information on this please search online or take a look at:
+			https://www.w3schools.com/tags/canvas_fillrect.asp
+
+		3. clearRect, this method (function) clears the specified pixels within a given rectangle.
+
+	An important note and something to think about:
+		You will need to have the console window open to see any messages being issued by the fnShowState function.
+		Up and Left should decrease the appropriate positional values (as highlighted in tutorial 2)
+		Down and Right should increase the appropriate positional values (as highlighted in tutorial 2)
+
+
+
+	Tasks:
+		1. Spend some time reviewing and identifying the fixes against your version - try to make sure you understand the issues causing the problems.
+		2. Get this program running in Chrome and test it; after you make any changes - save and test your code to confirm it works.
+		3. Review the new functions.
+		4. Use the two oCanvas.width, oCanvas.height properties to automatically set the stylus starting position to the centre of the canvas.
+		5. Update the clear function so that after it resets the canvas it repaints the stylus at the starting position.
+		6. Add the facility for the user to select different sizes for the stylus.
+		7. Add the ability to change the colour of the stylus.
+		8. Try to REFACTOR your code to remove any unnecessary duplication; in essence, refactoring is the restructuring of your code to reduce needless repetition and improve its efficiency without changing its operation or required behaviour.
+
+		Try to complete the tasks before the next session
+	-->
+
+	<head>
+		<title>Etch A Sketch 04</title>
+		<script>
+			//declare a variable, a variable can be used to hold information - this variable will be used to hold the HTML canvas
+			var oCanvas;
+			//declare a variable, this variable will be used to hold the HTML canvas context (we will set it to 2D)
+			var oCTX;
+			var size = 5;
+
+			// snake head position
+			var iXPos, iYPos ;
+			// snake velocity
+			var velocity = { x:1, y:0 } ;
+			var appleCurrentPos = { x:10, y:10 } ;
+
+			var hasAppleBeenEaten = true;
+
+			var borders = { width: 100, height: 100 } ;
+
+			var snake = [ {x:oCanvas.width/2, y:oCanvas.height/2} ];
+
+
+			var collisionDetection = (snake, collisionType ) => {}
+
+			var move = ( direction ) => {}
+
+			var updateSnake = ( velocity, hasAppleBeenEaten )
+
+			var snakeDead  = ( ) => {}
+
+
+
+
+
+
+
+
+
+
+
+
+			function fnInitialise() {
+				alert("Yeah, the page has loaded");
+				//set the canvas to an appropraite mode
+				oCanvas = document.getElementById("cnCanvas");
+				//this sets the oCanvas variable to point to the HTML canvas tag.
+				//the instruction "document.getElementByID" tells JavaScript to search the web document (this page) for the
+				//element with the specified ID; in this case it will find the canvas element.
+				//the ID provided must match the element ID used for the canvas otherwise the following instructions will
+				//not work (because the dependent information would be found, due to not being able to find the canvas).
+
+				if (oCanvas.getContext) { //if we can get the canvas' context execute the following
+					oCanvasContext = oCanvas.getContext("2d"); //set the context to 2D, that way we are dealing with X and Y positions
+					alert("Canvas has been set to 2D"); //execute the JavaScript alert function, pass it a string (alphanumeric characters)
+
+					//initialise both the variables used to hold the X and Y position of the stylus to 0
+					fnClear();
+					fnPaintStylus(); //this function call has been added here to cause the stylus to appear in the first instance
+
+				}
+			}
+
+			function centre () {
+				iXPos=oCanvas.width / 2;
+				iYPos=oCanvas.height / 2;
+			}
+
+			function fnClear() {
+				//this function resets the canvas - in essence it clear any existing colours
+				oCanvasContext.clearRect(0, 0, oCanvas.width, oCanvas.height); //start and position 0,0 to the current width and height
+					iXPos=oCanvas.width / 2;
+					iYPos=oCanvas.height / 2;
+			}
+
+			function fnPaintStylus() {
+				//this function will be used to paint a stylus on the canvas - a bit like a mouse pointer
+				//the stylus will be painted and the X and Y position
+				var useColor= document.getElementById('fave-color').value
+				console.log (useColor)
+
+				oCanvasContext.fillStyle = useColor;
+				oCanvasContext.fillRect(iXPos, iYPos, 5, 5); //fillRect() method (function) draws a "filled" rectangle; default color black.
+
+
+			}
+
+			function fnShowState() {
+				//this function will be used to help us see whats happening live in our program
+				//it will use a built-in JavaScript function called "console.log" to show us the state of our program while we test it
+				console.log("Stylus X Position: " + iXPos + ", Y Position: " + iYPos); //this will use the same window we use to debug errors but now it will also show us the values being held by both the iXPos and iYPos variables
+			}
+
+			function fnUp() {
+				//this function will be executed when the user clicks the UP button
+					iYPos = Math.max( Math.min(iYPos-size, oCanvas.height), 0);
+					// iYPos = Math.max(iYPos-size, 0);
+
+				if (iYPos >= 5)
+					iYPos = iYPos - 5;
+				fnPaintStylus(); //paint the stylus at the new location
+				fnShowState();
+			}
+
+			function fnDown() {
+
+				if (iYPos <= oCanvas.height-5){
+					iYPos = iYPos + 5; //increase the Y position for the stylus
+					}
+				fnPaintStylus(); //paint the stylus at the new location
+				fnShowState();
+			}
+
+			function fnLeft() {
+				if (iXPos >= 5){
+					iXPos = iXPos - 5; //reduce the X position for the stylus
+					}
+				fnPaintStylus(); //paint the stylus at the new location
+				fnShowState();
+			}
+
+			function fnRight() {
+				if (iXPos <= oCanvas.width-5){
+
+					iXPos = iXPos + 5; //this instruction does 2 things
+					}
+				fnPaintStylus(); //paint the stylus at the new location
+				//1. takes the value currently stored in the variable iXPos and adds 5 to it
+				//2. stores the new value back in the variable iXPos
+				//in general, this updates the value of the variable by the number specified (in this instance, 5)
+				fnShowState();
+			}
+
+		</script>
+	</head>
+
+	<body onload="fnInitialise();">
+		<!-- everything in the body section is rendered on the page; in essence this is the "user interface" -->
+		<div>
+			<!-- this container can be used to hold the canvas, techncally this is not needed but its good practice -->
+			<canvas id="cnCanvas" width="500" height="500" style="border: 1px solid #000000; background-color: #f0f0f0;">
+			</canvas>
+		</div>
+
+		<div>
+			<!-- this container can be used to group all the buttons -->
+			<button id="btUp" onclick="fnUp();" style="width: 80px;">
+				UP
+			</button>
+			<button id="btDown" onclick="fnDown();" style="width: 80px;">
+				DOWN
+			</button>
+			<button id="btLeft" onclick="fnLeft();" style="width: 80px;">
+				LEFT
+			</button>
+			<button id="btRight" onclick="fnRight();" style="width: 80px;">
+				RIGHT
+			</button>
+			<button id="btClear" onclick="fnClear();" style="width: 80px;">
+				CLEAR
+			</button>
+			<input type="color" id="fave-color" value="#ff000088" />
+		</div>
+
+	</body>
+
+</html>
